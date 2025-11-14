@@ -1,0 +1,81 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: prod.Dockerfile
+    image: go_menus_prod
+    container_name: go_menus_prod_container
+    restart: unless-stopped
+    tty: true
+    environment:
+      - APP_ENV=production
+      - APP_PORT=8000
+      - DATABASE_PORT=5432
+      - DATABASE_HOST=db
+      - DATABASE_USER=adminprod
+      - DATABASE_PASSWORD=4dm1n123
+      - DATABASE_NAME=db_gomenus_prod
+      - DATABASE_MAX_OPEN_CONNECTION=10
+      - DATABASE_MAX_IDLE_CONNECTION=20
+    working_dir: /app
+    # volumes:
+    #   - .:/app
+    networks:
+      - go_menus_network_prod
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:latest
+    container_name: postgres_menu_prod
+    restart: always
+    environment:
+      - POSTGRES_USER=adminprod
+      - POSTGRES_PASSWORD=4dm1n123
+      - POSTGRES_DB=db_gomenus_prod
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data_prod:/var/lib/postgresql/data
+    networks:
+      - go_menus_network_prod
+
+  migrate:
+    image: migrate/migrate:latest
+    container_name: migrate_gomenus_prod
+    networks:
+      - go_menus_network_prod
+    volumes:
+      - ./db/migrations:/migrations
+    depends_on:
+      - db
+    entrypoint: [
+        "sh",
+        "-c",
+        "until nc -z db 5432; do echo 'Waiting for Postgres...'; sleep 2; done; \
+        echo 'Postgres is ready!'; \
+        migrate -path=/migrations -database postgres://adminprod:4dm1n123@db:5432/db_gomenus_prod?sslmode=disable up",
+      ]
+
+  pgadmin:
+    image: dpage/pgadmin4:9.10.0
+    container_name: pgadmin_menu_prod
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=okeokeoke
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    networks:
+      - go_menus_network_prod
+
+volumes:
+  postgres_data_prod:
+
+networks:
+  go_menus_network_prod:
+    driver: bridge

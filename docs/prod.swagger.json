@@ -1,0 +1,1009 @@
+{
+  "info": {
+    "title": "API Menu Management Production",
+    "description": "",
+    "version": "1.0.0"
+  },
+  "tags": [
+    {
+      "name": "Check Server",
+      "description": "Server status check"
+    },
+    {
+      "name": "Menu Management",
+      "description": "Operations related to menu items"
+    }
+  ],
+  "paths": {
+    "/check": {
+      "get": {
+        "summary": "Check server is running",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "Check Server"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "Server is running"
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "message"
+              ]
+            }
+          }
+        },
+        "security": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/menus": {
+      "post": {
+        "summary": "Add Menus",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "Menu Management"
+        ],
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "type": "string",
+            "x-example": "*/*"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "menu_id": {
+                  "type": "string",
+                  "description": "Menu ID may be empty or may contain content"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "name"
+                },
+                "sort_order": {
+                  "type": "integer",
+                  "description": "sort order"
+                }
+              },
+              "required": [
+                "menu_id",
+                "name",
+                "sort_order"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "Create menu successfully",
+                "status": true
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "message",
+                "status"
+              ]
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "Invalid request",
+                "status": false,
+                "errors": [
+                  "The field Name is required "
+                ]
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "message",
+                "status",
+                "errors"
+              ]
+            }
+          }
+        },
+        "security": [],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "summary": "Find All Menu",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "Menu Management"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "Find all menus successfully",
+                "status": true,
+                "data": [
+                  {
+                    "id": "176a8839-6eda-4407-879d-8049c941c3d4",
+                    "menu_id": null,
+                    "name": "System App",
+                    "depth": 0,
+                    "sort_order": 0,
+                    "children": [
+                      {
+                        "id": "ef82796f-2acd-4e71-a88a-39353f5e828b",
+                        "menu_id": "176a8839-6eda-4407-879d-8049c941c3d4",
+                        "name": "System Menu Test",
+                        "depth": 1,
+                        "sort_order": 0,
+                        "children": null
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "menu_id": {
+                        "type": "null"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "depth": {
+                        "type": "integer"
+                      },
+                      "sort_order": {
+                        "type": "integer"
+                      },
+                      "children": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": {
+                              "type": "string"
+                            },
+                            "menu_id": {
+                              "type": "string"
+                            },
+                            "name": {
+                              "type": "string"
+                            },
+                            "depth": {
+                              "type": "integer"
+                            },
+                            "sort_order": {
+                              "type": "integer"
+                            },
+                            "children": {
+                              "type": "null"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "required": [
+                "message",
+                "status",
+                "data"
+              ]
+            }
+          }
+        },
+        "security": [],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/menus/{id}": {
+      "delete": {
+        "summary": "Delete Menu",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "Menu Management"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "Delete menu successfully",
+                "status": true
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "message",
+                "status"
+              ]
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "Invalid menu ID format",
+                "status": false
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "message",
+                "status"
+              ]
+            }
+          },
+          "404": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "record not found",
+                "status": false
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "message",
+                "status"
+              ]
+            }
+          }
+        },
+        "security": [],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "get": {
+        "summary": "Find Menu By ID",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "Menu Management"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "Find menu by id successfully",
+                "status": true,
+                "data": {
+                  "id": "176a8839-6eda-4407-879d-8049c941c3d4",
+                  "menu_id": null,
+                  "name": "System App",
+                  "depth": 0,
+                  "sort_order": 0,
+                  "children": [
+                    {
+                      "id": "bf840b3f-dc8a-435d-b9bd-2089edacc996",
+                      "menu_id": "176a8839-6eda-4407-879d-8049c941c3d4",
+                      "name": "System Menu Test",
+                      "depth": 1,
+                      "sort_order": 0,
+                      "children": null
+                    }
+                  ]
+                }
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string"
+                    },
+                    "menu_id": {
+                      "type": "null"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "depth": {
+                      "type": "integer"
+                    },
+                    "sort_order": {
+                      "type": "integer"
+                    },
+                    "children": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "string"
+                          },
+                          "menu_id": {
+                            "type": "string"
+                          },
+                          "name": {
+                            "type": "string"
+                          },
+                          "depth": {
+                            "type": "integer"
+                          },
+                          "sort_order": {
+                            "type": "integer"
+                          },
+                          "children": {
+                            "type": "null"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "menu_id",
+                    "name",
+                    "depth",
+                    "sort_order",
+                    "children"
+                  ]
+                }
+              },
+              "required": [
+                "message",
+                "status",
+                "data"
+              ]
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "Invalid menu ID format",
+                "status": false
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "message",
+                "status"
+              ]
+            }
+          },
+          "404": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "record not found",
+                "status": false
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "message",
+                "status"
+              ]
+            }
+          }
+        },
+        "security": [],
+        "produces": [
+          "application/json"
+        ]
+      },
+      "put": {
+        "summary": "Update Menu",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "Menu Management"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "type": "string",
+            "x-example": "*/*"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "name"
+                },
+                "sort_order": {
+                  "type": "integer",
+                  "description": "sort order"
+                }
+              },
+              "required": [
+                "name",
+                "sort_order"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "Update menu successfully",
+                "status": true
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "message",
+                "status"
+              ]
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "Invalid request",
+                "status": false,
+                "errors": [
+                  "The field Name is required "
+                ]
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                },
+                "errors": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "required": [
+                "message",
+                "status",
+                "errors"
+              ]
+            }
+          },
+          "404": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "record not found",
+                "status": false
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "message",
+                "status"
+              ]
+            }
+          },
+          "x-400:Invalid Menu ID": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "Invalid menu ID format",
+                "status": false
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "message",
+                "status"
+              ]
+            }
+          }
+        },
+        "security": [],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/menus/{id}/move": {
+      "patch": {
+        "summary": "Move Menu",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "Menu Management"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "type": "string",
+            "x-example": "*/*"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "new_menu_id": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "new_menu_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "Move menu successfully",
+                "status": true
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "message",
+                "status"
+              ]
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "Invalid new_menu_id format",
+                "status": false
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "message",
+                "status"
+              ]
+            }
+          },
+          "404": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "record not found",
+                "status": false
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "message",
+                "status"
+              ]
+            }
+          }
+        },
+        "security": [],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    },
+    "/menus/{id}/reorder": {
+      "patch": {
+        "summary": "Reorder Menu",
+        "deprecated": false,
+        "description": "",
+        "tags": [
+          "Menu Management"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "Accept",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "type": "string",
+            "x-example": "*/*"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "type": "string",
+            "x-example": "application/json"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "new_sort_order": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "new_sort_order"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "Reorder menu successfully",
+                "status": true
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "message",
+                "status"
+              ]
+            }
+          },
+          "400": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "Invalid menu ID format",
+                "status": false
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "message",
+                "status"
+              ]
+            }
+          },
+          "404": {
+            "description": "",
+            "headers": {},
+            "examples": {
+              "application/json": {
+                "message": "record not found",
+                "status": false
+              }
+            },
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "message",
+                "status"
+              ]
+            }
+          }
+        },
+        "security": [],
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ]
+      }
+    }
+  },
+  "security": [],
+  "swagger": "2.0",
+  "host": "127.0.0.1:8000",
+  "schemes": [
+    "http"
+  ],
+  "basePath": "/api",
+  "definitions": {},
+  "securityDefinitions": {},
+  "x-components": {}
+}
